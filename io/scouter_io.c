@@ -11,8 +11,10 @@
 // ------------------------------------- UTIL MACROS -------------------------------------//
 
 // -------------------------------- NETWORK IO FUNCTIONS ----------------------------------//
-// CAUTION !!!
 
+/**
+ *  This method used in singed decimal types. (for write_decimal)
+ */
 int64_t extend_bytes_with_sign(uint64_t src_value, int src_size, int dst_size)
 {
 	uint64_t dst_value = 0;
@@ -379,14 +381,32 @@ void write_primitive_value(ScouterPrimitiveValue* pvalue, PacketBuffer* pbuffer)
 		write_double(pbuffer, pvalue->value.double_value);
 		break;
 	case	FloatValue		:
+		write_float(pbuffer, pvalue->value.float_value);
+		break;
 	case	NullValue		:
+		write_byte(pbuffer, 0x00);
+		break;
 	case	TextHashValue	:
+		write_4_bytes(pbuffer, pvalue->value.hash_value);
 		break;
 	case	TextValue		:
+		write_blob(pbuffer, pvalue->value.blob_value, pvalue->blob_size);
 		break;
 	case	IP4Value		:
+		write_4_bytes(pbuffer, pvalue->value.ip_value);
+		break;
 	case	DoubleSummary	:
+		write_double(pbuffer, pvalue->value.dsum_value.sum);
+		write_4_bytes(pbuffer, pvalue->value.dsum_value.count);
+		write_double(pbuffer, pvalue->value.dsum_value.min);
+		write_double(pbuffer, pvalue->value.dsum_value.max);
+		break;
 	case	LongSummary		:
+		write_long(pbuffer, pvalue->value.lsum_value.sum);
+		write_4_bytes(pbuffer, pvalue->value.lsum_value.count);
+		write_long(pbuffer, pvalue->value.lsum_value.min);
+		write_long(pbuffer, pvalue->value.lsum_value.max);
+		break;
 	default :
 		break;
 	}

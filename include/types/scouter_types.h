@@ -79,8 +79,8 @@ typedef union PrimitiveValue {
 	uint32_t hash_value;
 	uint32_t ip_value;
 	float float_value;
-	DoubleSummary dsum_value;
-	LongSummary lsum_value;
+	DoubleSummaryValue dsum_value;
+	LongSummaryValue lsum_value;
 } PrimitiveValue;
 
 typedef struct ScouterPrimitiveValue {				// For Complex Type. Array. List. Map.
